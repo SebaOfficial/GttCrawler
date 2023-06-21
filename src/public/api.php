@@ -33,8 +33,13 @@ if(isset($_GET['stop'])){
     $gttClient = new GttClient((int)$_GET['stop']);
 
     try{
+        $res = $gttClient->askStop();
+
+        if($res === NULL)
+            throw new Exception();
+            
         $response->setHttpCode(200)
-            ->setBody($gttClient->askStop())
+            ->setBody($res)
                 ->send();
 
     } catch(Exception $e){
