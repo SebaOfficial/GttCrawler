@@ -288,7 +288,7 @@ a.pure-button-primary {
 
 .arrow-container {
     position: relative;
-    width: 100px;
+    width: fit-content;
     height: 100px;
     border-radius: 100%;
     cursor: pointer;
@@ -306,6 +306,17 @@ a.pure-button-primary {
     border-top: 40px solid var(--main-color);
     animation: arrow-bounce 1s infinite;
     outline: none;
+}
+
+#click-me {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    margin-top: 5px;
 }
 
 @keyframes arrow-bounce {

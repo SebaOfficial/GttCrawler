@@ -6,6 +6,7 @@
         "main": {
             "h1": "GTT CRAWLER",
             "h2": "ANCHE I NERD PRENDONO BUS...",
+            "click_me": "Cliccami",
             "search_stop": {
                 "title": "Cerca Fermata",
                 "description": "Cerca una fermata del bus.",

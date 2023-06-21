@@ -6,6 +6,7 @@
         "main": {
             "h1": "GTT CRAWLER",
             "h2": "EVEN NERDS TAKE THE BUS...",
+            "click_me": "Click Me",
             "search_stop": {
                 "title": "Search Stop",
                 "description": "Search for a bus stop.",

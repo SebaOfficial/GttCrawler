@@ -62,6 +62,7 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
             <center>
                 <div class="arrow-container" onclick="scrollToElement(event, 'content')" onkeydown="scrollToElement(event, 'content')" tabindex=0>
                     <div class="arrow"></div>
+                    <p id="click-me"><?= $translation->main->click_me ?></p>
                 </div>
             </center>
         </div>
@@ -109,9 +110,13 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
     </main>
 
     <script>
+        let scrollTimeoutId;
+        
         function scrollToElement(event, elementId) {
             event.preventDefault(); // Prevents the default behavior of the anchor tag
-            
+
+            clearTimeout(scrollTimeoutId); // Clear any previously set timeout
+
             const targetElement = document.getElementById(elementId); // Get the target element
             const targetPosition = targetElement.offsetTop; // Get the top position of the target element
 
@@ -120,6 +125,11 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
                 behavior: 'smooth' // Scroll smoothly
             });
         }
+
+        scrollTimeoutId = setTimeout(function(){
+            let clickMe = document.getElementById('click-me');
+            clickMe.style.opacity = "1";
+        }, 2000);
 
         const localLang = (navigator.language || navigator.userLanguage).substr(0, 2);
         const queryString = window.location.search;
