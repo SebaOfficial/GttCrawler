@@ -1,7 +1,7 @@
 <?php
 const LOCALES_DIR = __DIR__ . "/../locales/";
 
-$lang = $_GET['lang'] ?? "it";
+$lang = $_GET['lang'] ?? "en";
 
 if(!file_exists(LOCALES_DIR . "$lang.json")) $lang = "en";
 
@@ -105,6 +105,19 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
                 behavior: 'smooth' // Scroll smoothly
             });
         }
+
+        const localLang = (navigator.language || navigator.userLanguage).substr(0, 2);
+        const queryString = window.location.search;
+
+        if(queryString.includes("?lang=")){
+            
+            if(queryString.split("?lang=")[1] === '') 
+                window.location.href = "?lang=" + localLang;
+
+        }else{
+            window.location.href = "?lang=" + localLang;
+        }
+
 
     </script>
 
