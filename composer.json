@@ -26,6 +26,10 @@
     ],
     "require": {
         "nesbot/carbon": "^2.66",
-        "guzzlehttp/guzzle": "^7.7"
+        "guzzlehttp/guzzle": "^7.7",
+        "php": "^8.0",
+        "ext-sqlite3": "*",
+        "ext-pdo": "*"
+        
     }
 }
