@@ -39,7 +39,7 @@ if(isset($_GET['stop'])){
             throw new Exception();
             
         $response->setHttpCode(200)
-            ->setBody($res)
+            ->setBody((array)$res)
                 ->send();
 
     } catch(Exception $e){
