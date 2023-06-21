@@ -6,6 +6,20 @@
         "main": {
             "h1": "GTT CRAWLER",
             "h2": "ANCHE I NERD PRENDONO BUS...",
+            "search_stop": {
+                "title": "Cerca Fermata",
+                "description": "Cerca una fermata del bus.",
+                "input": {
+                    "placeholder": "Cerca Fermata..."
+                },
+                "results": {
+                    "not_found": "Fermata non trovata.",
+                    "no_results": "Non ci sono risultati per questa fermata.",
+                    "general_error": "C'è stato un error.",
+                    "title": "Linea"
+                },
+                "real_time": "Ogni linea contrassegnata con '<code>*</code>' è in tempo reale"
+            },
             "description": [
                 {
                     "title": "Informazioni",

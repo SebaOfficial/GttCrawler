@@ -46,6 +46,9 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
     <title><?= $translation->title ?></title>
 </head>
 <body>
@@ -73,6 +76,18 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
         <div class="ribbon l-box-lrg pure-g">
             <div class="pure-u-lg-1-5">&nbsp;</div>
             <div class="pure-u-1 pure-u-md-1-1 pure-u-lg-3-5">
+
+                <div class="search-stop">
+                    <h3><?= $translation->main->search_stop->title ?></h3>
+                    <div class="search-bar">
+                        <p><?= $translation->main->search_stop->description ?></p>
+                        <input id="searchInput" type="number" placeholder="<?= $translation->main->search_stop->input->placeholder ?>">
+                        <div id="stopResults"></div>
+                        <i><?= $translation->main->search_stop->real_time ?></i>
+                    </div>
+                    <br>
+                </div>
+
                 <?php
                     foreach($translation->main->description as $section => $content){
                         echo "<h3>$content->title</h3>";
@@ -115,6 +130,65 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
         } else {
             window.history.replaceState(null, "", `?lang=${localLang}`);
         }
+
+
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('stopResults');
+
+        let timeoutId;
+
+        searchInput.addEventListener('input', async () => {
+            const query = searchInput.value.trim();
+            clearTimeout(timeoutId);
+
+            if(/^\d+$/.test(query)){ // Check if it's a number
+
+                timeoutId = setTimeout(async () => {
+                    try {
+                        const response = await axios.get(`/api.php?stop=${query}`);
+                        
+                        const results = response.data;
+                        console.log(results);
+
+                        // Clear previous results
+                        resultsContainer.innerHTML = '';
+
+                        // Display the results
+                        if (results.length === 0) {
+                            resultsContainer.innerText = "<?= $translation->main->search_stop->results->no_results ?>";
+
+                        } else {
+                            results.forEach(result => {
+                                const item = document.createElement('div');
+                                const title = document.createElement('p');
+
+                                item.classList.add('search-result');
+
+                                title.innerText = "<?= $translation->main->search_stop->results->title ?> " + result.line + ": " + result.hour + (result.realtime ? " *" : "");
+                                item.appendChild(title);
+                                
+                                resultsContainer.appendChild(item);
+                            });
+                        }
+                    } catch (error) {
+                        let statusCode = error.response.status;
+
+                        resultsContainer.innerHTML = (() => {
+                            switch (error.response.status) {
+                                case 404:
+                                    return "<?= $translation->main->search_stop->results->not_found ?>";
+                                
+                                default:
+                                    return "<?= $translation->main->search_stop->results->general_error ?>";
+                            }
+                        })();
+                    }
+                }, 300);
+
+            }else{
+                resultsContainer.innerHTML = '';
+            }
+        });
 
 
 

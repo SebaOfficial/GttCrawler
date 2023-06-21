@@ -6,14 +6,26 @@
         "main": {
             "h1": "GTT CRAWLER",
             "h2": "EVEN NERDS TAKE THE BUS...",
+            "search_stop": {
+                "title": "Search Stop",
+                "description": "Search for a bus stop.",
+                "input": {
+                    "placeholder": "Search Stop..."
+                },
+                "results": {
+                    "not_found": "The stop wasn't found.",
+                    "no_results": "There are no results for this stop.",
+                    "general_error": "There was an error.",
+                    "title": "Line"
+                },
+                "real_time": "Each line marked with '<code>*</code>' is in real time"
+            },
             "description": [
                 {
                     "title": "Information",
                     "p": [
                         "This is the <strong>GTT's Crawler</strong>, an unofficial API to access information about the active public transport in Turin.",
-                        "To query the API, invoke this endpoint:",
-                        "<pre>https://gtt.racca.me/api.php?stop={your_stop_id}}</pre>",
-                        "Where <code>{your_stop_id}</code> is the ID of a stop.",
+                        "To query the API, invoke this endpoint:<pre>https://gtt.racca.me/api.php?stop={your_stop_id}}</pre>Where <code>{your_stop_id}</code> is the ID of a stop.",
                         "The full documentation can be found <a target='_blank' href='https://github.com/SebaOfficial/GttCrawler/'>here<a>"
                     ]
                 },
