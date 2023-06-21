@@ -109,14 +109,13 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
         const localLang = (navigator.language || navigator.userLanguage).substr(0, 2);
         const queryString = window.location.search;
 
-        if(queryString.includes("?lang=")){
-            
-            if(queryString.split("?lang=")[1] === '') 
-                window.location.href = "?lang=" + localLang;
-
-        }else{
-            window.location.href = "?lang=" + localLang;
+        if (queryString.includes("?lang=")) {
+            if(queryString.split("?lang=")[1] === "")
+                window.history.replaceState(null, "", `?lang=${localLang}`);
+        } else {
+            window.history.replaceState(null, "", `?lang=${localLang}`);
         }
+
 
 
     </script>
