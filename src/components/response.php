@@ -83,8 +83,9 @@ final class Response{
      * 
      * @param array $methods The allowed methods.
      */
-    public function allowMethods(array $methods): void{
+    public function allowMethods(array $methods): self{
         header("Access-Control-Allow-Methods: " . implode(", ", $methods));
+        return $this;
     }
 
 

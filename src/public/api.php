@@ -17,7 +17,9 @@ use \Gtt\Api\Components\{Response, GttClient};
 
 $response = new Response();
 
-$response->setHeaders(["Content-Type: application/json"]);
+$response->setHeaders(["Content-Type: application/json"])
+    ->allowMethods(["OPTIONS", "GET"])
+        ->allowOrigin(["*"]);
 
 
 if(isset($_GET['stop'])){
