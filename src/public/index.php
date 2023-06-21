@@ -124,6 +124,8 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
                 top: targetPosition,
                 behavior: 'smooth' // Scroll smoothly
             });
+
+            event.target.blur();
         }
 
         scrollTimeoutId = setTimeout(function(){
