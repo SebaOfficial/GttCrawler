@@ -67,7 +67,7 @@ final class GttClient{
         }';
     
         $result = $this->getGTTData($request);
-        $id = $result->data->stop->id;
+        $id = $result->data->stop->id ?? "";
     
         // Getting the data for the next 2 hours
         $offset = 60 * 60 * 2;
