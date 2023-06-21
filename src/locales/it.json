@@ -1,0 +1,34 @@
+{
+    "home": {
+        "title": "GTT Api Client",
+        "description": "Un Crawler della GTT",
+        "url": "https://gtt.racca.me/",
+        "main": {
+            "h1": "GTT CRAWLER",
+            "h2": "ANCHE I NERD PRENDONO BUS...",
+            "description": [
+                {
+                    "title": "Informazioni",
+                    "p": [
+                        "Questo è un <strong>Cralwer GTT</strong>, un'API non ufficiale per accede ad alcune informazioni riguardo i trasporti pubblici a Torino.",
+                        "Per interrogare l'API, invoca questo endpoint:",
+                        "<pre>https://gtt.racca.me/api.php?stop={your_stop_id}}</pre>",
+                        "Dove <code>{your_stop_id}</code> è l'ID della fermata.",
+                        "L'intera documentazione può essere trovata <a target='_blank' href='https://github.com/SebaOfficial/GttCrawler/'>qui</a>."
+                    ]
+                },
+                {
+                    "title": "Credits",
+                    "li": [
+                        "<b>Creatore:</b> <a target='_blank' href='https://racca.me'>Sebastiano Racca</a>",
+                        "<b>Logo:</b> <a href='https://openclipart.org/detail/260672/bus15'>OpenClipArt</a>",
+                        "Questa è una <b>fork</b> di <a target='_blank' href='https://github.com/madbob/gtt-pirate-api'>GTT Pirate API<a>"
+                    ]
+                }
+            ]
+        },
+        "footer": {
+            "content": "&copy; Powered by Sebastiano Racca"
+        }
+    }
+}

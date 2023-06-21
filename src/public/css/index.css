@@ -16,12 +16,12 @@ body {
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6,
 label {
     color: #34495e;
+}
+
+h3{
+    color: #4f9be7;
 }
 
 .pure-img-responsive {
@@ -279,3 +279,39 @@ a.pure-button-primary {
         font-size: 300%;
     }
 }
+
+
+.arrow-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.arrow {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 40px solid #34495e;
+    animation: arrow-bounce 1s infinite;
+    outline: none;
+}
+
+@keyframes arrow-bounce {
+    0% {
+      bottom: 0;
+    }
+    50% {
+      bottom: 10px;
+    }
+    100% {
+      bottom: 0;
+    }
+}
+  

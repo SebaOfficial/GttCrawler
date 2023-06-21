@@ -1,5 +1,31 @@
 {
+    "name": "madbob/gtt-pirate-api",
+    "description": "API per accedere in tempo reale al trasporto pubblico di Torino",
+    "type": "project",
+    "license": "GNU General Public",
+    "autoload": {
+        "psr-4": {
+            "GTT\\Api\\": "src/",
+            "GTT\\Api\\Components\\": "src/components/"
+        },
+        "files": [
+            "src/components/gtt-client.php",
+            "src/components/response.php",
+            "src/components/database.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Sebastiano Racca",
+            "email": "sebastiano@racca.me"
+        },
+        {
+            "name": "Roberto Guido",
+            "email": "info@madbob.org"
+        }
+    ],
     "require": {
-        "nesbot/carbon": "^2.66"
+        "nesbot/carbon": "^2.66",
+        "guzzlehttp/guzzle": "^7.7"
     }
 }
