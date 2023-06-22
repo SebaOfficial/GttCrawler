@@ -19,7 +19,11 @@
                     "general_error": "There was an error.",
                     "title": "Line"
                 },
-                "real_time": "Each line marked with '<code>*</code>' is in real time"
+                "real_time": "Each line marked with '<code>*</code>' is in real time",
+                "qr_code": {
+                    "no_camera_error": "No cameras were found on this device.",
+                    "permission_denied": "Permission to the camera denied."
+                }
             },
             "description": [
                 {

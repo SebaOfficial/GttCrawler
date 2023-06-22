@@ -1,9 +1,11 @@
 <?php
 const LOCALES_DIR = __DIR__ . "/../locales/";
 
-$lang = $_GET['lang'] ?? "en";
+$defaultLang = "en";
 
-if(!file_exists(LOCALES_DIR . "$lang.json")) $lang = "en";
+$lang = $_GET['lang'] ?? $defaultLang;
+
+if(!file_exists(LOCALES_DIR . "$lang.json")) $lang = $defaultLang;
 
 
 $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
@@ -41,20 +43,29 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
     <link rel="stylesheet" href="css/font-awesome.css">
     <link rel="stylesheet" href="css/index.css">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
 
     <title><?= $translation->title ?></title>
 </head>
 <body>
+
+    <div id="qr-preview-container">
+        <div class="exit-preview" onclick="scanQR(false)"></div>
+        <video id="qr-scanner-preview" autoplay></video>
+        <p>Click anywhere on the screen to exit</p>
+    </div>
+
     <div class="splash-container">
         <div class="splash">
-            <h1 class="splash-head"><img src="logo.png"/></h1>
+            <h1 class="splash-head"><img src="/img/logo.png" alt="Logo"/></h1>
             <p class="splash-subhead">
                 <h1><?= $translation->main->h1 ?></h1>
             </p>
@@ -82,8 +93,17 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
                     <h3><?= $translation->main->search_stop->title ?></h3>
                     <div class="search-bar">
                         <p><?= $translation->main->search_stop->description ?></p>
-                        <input id="searchInput" type="number" placeholder="<?= $translation->main->search_stop->input->placeholder ?>">
-                        <div id="stopResults"></div>
+                        
+                        <div class="searcher">
+                            <input id="searchInput" type="number" placeholder="<?= $translation->main->search_stop->input->placeholder ?>">
+                            <div class="scan-qr" onclick="scanQR()">
+                                <img src="/img/scan-qr.jpg" alt="Scan QR Code">
+                            </div>
+                        </div>
+
+                        <div id="searchResults"></div>
+
+
                         <i><?= $translation->main->search_stop->real_time ?></i>
                     </div>
                     <br>
@@ -109,101 +129,45 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
         </footer>
     </main>
 
+    <?php
+
+        foreach(glob(__DIR__ . "/script/*.js") as $script){
+            echo "<script>\n" .
+                strtr(file_get_contents($script), [
+                    "{{defaultLang}}" => $defaultLang,
+                    "{{noCamerasError}}" => $translation->main->search_stop->qr_code->no_camera_error,
+                    "{{cameraPermissionDenied}}" => $translation->main->search_stop->qr_code->permission_denied,
+                    "{{stopNoResults}}" => $translation->main->search_stop->results->no_results,
+                    "{{stopResultTitle}}" => $translation->main->search_stop->results->title,
+                    "{{stopNotFound}}" => $translation->main->search_stop->results->not_found,
+                    "{{stopGeneralError}}" => $translation->main->search_stop->results->general_error,
+
+                ]) .
+            "\n</script>";
+        }
+
+    ?>
+
     <script>
-        let scrollTimeoutId;
-        
-        function scrollToElement(event, elementId) {
-            event.preventDefault(); // Prevents the default behavior of the anchor tag
-
-            clearTimeout(scrollTimeoutId); // Clear any previously set timeout
-
-            const targetElement = document.getElementById(elementId); // Get the target element
-            const targetPosition = targetElement.offsetTop; // Get the top position of the target element
-
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth' // Scroll smoothly
-            });
-
-            event.target.blur();
-        }
-
-        scrollTimeoutId = setTimeout(function(){
-            let clickMe = document.getElementById('click-me');
-            clickMe.style.opacity = "1";
-        }, 2000);
-
-        const localLang = (navigator.language || navigator.userLanguage).substr(0, 2);
-        const queryString = window.location.search;
-
-        if (queryString.includes("?lang=")) {
-            if(queryString.split("?lang=")[1] === "")
-                window.history.replaceState(null, "", `?lang=${localLang}`);
-        } else {
-            window.history.replaceState(null, "", `?lang=${localLang}`);
-        }
-
-
         const searchInput = document.getElementById('searchInput');
-        const resultsContainer = document.getElementById('stopResults');
+        const resultsContainer = document.getElementById('searchResults');
 
         let timeoutId;
 
-        searchInput.addEventListener('input', async () => {
+        searchInput.addEventListener('input', () => {
             const query = searchInput.value.trim();
             clearTimeout(timeoutId);
 
-            if(/^\d+$/.test(query)){ // Check if it's a number
+            if(/^\d+$/.test(query)){
 
-                timeoutId = setTimeout(async () => {
-                    try {
-                        const response = await axios.get(`/api.php?stop=${query}`);
-                        
-                        const results = response.data;
-                        console.log(results);
-
-                        // Clear previous results
-                        resultsContainer.innerHTML = '';
-
-                        // Display the results
-                        if (results.length === 0) {
-                            resultsContainer.innerText = "<?= $translation->main->search_stop->results->no_results ?>";
-
-                        } else {
-                            results.forEach(result => {
-                                const item = document.createElement('div');
-                                const title = document.createElement('p');
-
-                                item.classList.add('search-result');
-
-                                title.innerText = "<?= $translation->main->search_stop->results->title ?> " + result.line + ": " + result.hour + (result.realtime ? " *" : "");
-                                item.appendChild(title);
-                                
-                                resultsContainer.appendChild(item);
-                            });
-                        }
-                    } catch (error) {
-                        let statusCode = error.response.status;
-
-                        resultsContainer.innerHTML = (() => {
-                            switch (error.response.status) {
-                                case 404:
-                                    return "<?= $translation->main->search_stop->results->not_found ?>";
-                                
-                                default:
-                                    return "<?= $translation->main->search_stop->results->general_error ?>";
-                            }
-                        })();
-                    }
+                timeoutId = setTimeout(() => {
+                    getStopInfo(query);
                 }, 300);
-
+                
             }else{
                 resultsContainer.innerHTML = '';
             }
         });
-
-
-
     </script>
 
     
