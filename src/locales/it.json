@@ -1,7 +1,7 @@
 {
     "home": {
-        "title": "GTT Api Client",
-        "description": "Un Crawler della GTT",
+        "title": "GTT Crawler - Esplora le Fermate degli Autobus a Torino",
+        "description": "Esplora facilmente le linee e gli orari degli autobus con GTT Crawler per un trasporto pubblico senza problemi a Torino.",
         "url": "https://gtt.racca.me/",
         "main": {
             "h1": "GTT CRAWLER",

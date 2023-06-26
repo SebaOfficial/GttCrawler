@@ -1,7 +1,7 @@
 {
     "home": {
-        "title": "GTT Crawler",
-        "description": "A GTT Crawler",
+        "title": "GTT Crawler - Explore Bus Stops in Turin",
+        "description": "Effortlessly explore bus routes and schedules with GTT Crawler for hassle-free public transportation in Torino.",
         "url": "https://gtt.racca.me/",
         "main": {
             "h1": "GTT CRAWLER",
@@ -37,9 +37,9 @@
                 {
                     "title": "Credits",
                     "li": [
-                        "<b>Creator:</b> <a target='_blank' href='https://racca.me'>Sebastiano Racca</a>",
-                        "<b>Logo:</b> <a target='_blank' href='https://openclipart.org/detail/260672/bus15'>OpenClipArt</a>",
-                        "This is a <b>fork</b> of the <a target='_blank' href='https://github.com/madbob/gtt-pirate-api'>GTT Pirate API<a>"
+                        "<b>Creator:</b> <a itemprop=\"author\" target=\"_blank\" hre\"https://racca.me\">Sebastiano Racca</a>",
+                        "<b>Logo:</b> <a itemprop=\"author\" target=\"_blank\" href\"https://openclipart.org/detail/260672/bus1\">OpenClipArt</a>",
+                        "This is a <b>fork</b> of the <a itemprop=\"isBasedOn\" target=\"_blank\" href\"https://github.com/madbob/gtt-pirate-a\">GTT Pirate API<a>"
                     ]
                 }
             ]

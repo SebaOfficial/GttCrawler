@@ -43,14 +43,13 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
     <link rel="stylesheet" href="css/font-awesome.css">
     <link rel="stylesheet" href="css/index.css">
 
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script src="script/instascan.min.js"></script>
 
 
     <title><?= $translation->title ?></title>
@@ -63,19 +62,21 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
         <p>Click anywhere on the screen to exit</p>
     </div>
 
-    <div class="splash-container">
+    <div itemscope itemtype="http://schema.org/WebPage" class="splash-container">
         <div class="splash">
-            <h1 class="splash-head"><img src="/img/logo.png" alt="Logo"/></h1>
-            <p class="splash-subhead">
-                <h1><?= $translation->main->h1 ?></h1>
-            </p>
+            <div class="splash-head">
+                <img itemprop="logo" src="/img/logo.png" alt="Website Logo"/>
+            </div>
+            <div class="splash-subhead">
+                <h1 itemprop="name"><?= $translation->main->h1 ?></h1>
+            </div>
             
-            <center>
+            <div class="center">
                 <div class="arrow-container" onclick="scrollToElement(event, 'content')" onkeydown="scrollToElement(event, 'content')" tabindex=0>
                     <div class="arrow"></div>
                     <p id="click-me"><?= $translation->main->click_me ?></p>
                 </div>
-            </center>
+            </div>
         </div>
     </div>
     
@@ -97,7 +98,7 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
                         <div class="searcher">
                             <input id="searchInput" type="number" placeholder="<?= $translation->main->search_stop->input->placeholder ?>">
                             <div class="scan-qr" onclick="scanQR()">
-                                <img src="/img/scan-qr.jpg" alt="Scan QR Code">
+                                <img src="/img/scan-qr.png" alt="Scan QR Code">
                             </div>
                         </div>
 
@@ -132,6 +133,9 @@ $translation = json_decode(file_get_contents(LOCALES_DIR . "$lang.json"))->home;
     <?php
 
         foreach(glob(__DIR__ . "/script/*.js") as $script){
+            if(substr($script, -7) === ".min.js")
+                continue;
+
             echo "<script>\n" .
                 strtr(file_get_contents($script), [
                     "{{defaultLang}}" => $defaultLang,
